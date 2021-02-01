@@ -1,0 +1,37 @@
+-- My SQL을 이용한 database 생성
+-- 기본적인 SQL문 활용해보기
+
+create database test1; -- 데이터베이스 만들기(test1은 이름)
+use test1;
+create table user (id varchar(64) primary key, password varchar(64));
+create table money 
+(
+id varchar(64), 
+account int,
+foreign key (id) references user(id) on delete cascade
+); -- id와 account라는 컬럼이 있는 money 테이블 추가, 여기서 id는 외래키로 user 테이블의 id를 가지고 있으며, user 테이블의 데이터가 삭제되면 같이 삭제
+alter table t1 modify password varchar(64); 
+select * from user; -- t1의 모든 데이터 보여주기
+select * from money; -- t1의 모든 데이터 보여주기
+alter table user add column 이름 varchar(10) default '홍길동';
+
+insert into user values('ksm9781@naver.com', '4r3e2w1q*', '권승미');
+insert into user values('world9304@naver.com', '1q2w3e4r*', '나호정');
+
+insert into money values('world9304@naver.com', 10000);
+insert into money values('ksm9781@naver.com', 10000000);
+
+delete from user where id='ksm9781@naver.com';
+
+commit;
+select count(*) from t1;
+
+drop table money;
+-- insert into t1 values('world9304@naver.com', '1q2w3e4r*'); -- 새로운 데이터 추가
+-- alter table t1 drop column name; -- t1이라는 테이블에서 name이라는 colume 삭제
+-- alter table t1 modify id varchar(64) primary key; -- t1 테이블의 id 컬럼의 자료형 변경 및 primary key로 설정(중복된 데이터가 들어오면 안되게)
+-- drop table t1; --- 테이블(t1) 삭제
+-- show tables -- 현재 database의 모든 테이블 보여주기;
+-- show databases; -- 현재 존재하는 데이터베이트 보여주기
+-- delete from t1 where id='world9304@naver.com'; -- t1 테이블에서 id가 world9304@naver.com인 것 삭제(여러 개일 경우, 다 삭제)
+SET SQL_SAFE_UPDATES = 0;
