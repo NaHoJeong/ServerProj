@@ -1,32 +1,38 @@
 -- My SQL을 이용한 database 생성
 -- 기본적인 SQL문 활용해보기
 
-create database test1; -- 데이터베이스 만들기(test1은 이름)
-use test1;
-create table user (id varchar(64) primary key, password varchar(64));
-create table money 
+create database test1; -- 데이터베이스 만들기(test1은 이름, create database 데이터베이스 이름)
+use test1; -- (test1이라는 데이서베이스에서 시작, use 데이터베이스 이름)
+create table user (id varchar(64) primary key, password varchar(64)); -- (user라는 이름의 테이블 생성, 해당 테이블의 컬럼은 id(가변 char형, 64크기?), password(가변 char형))
+create table money  -- money라는 테이블 생성
 (
-id varchar(64), 
-account int,
+id varchar(64), -- user라는 테이블의 id와 같음
+account int, -- int 형의 account라는 컬럼
 foreign key (id) references user(id) on delete cascade
 ); -- id와 account라는 컬럼이 있는 money 테이블 추가, 여기서 id는 외래키로 user 테이블의 id를 가지고 있으며, user 테이블의 데이터가 삭제되면 같이 삭제
-alter table t1 modify password varchar(64); 
-select * from user; -- t1의 모든 데이터 보여주기
-select * from money; -- t1의 모든 데이터 보여주기
-alter table user add column 이름 varchar(10) default '홍길동';
 
-insert into user values('ksm9781@naver.com', '4r3e2w1q*', '권승미');
-insert into user values('world9304@naver.com', '1q2w3e4r*', '나호정');
+alter table t1 modify password varchar(64); -- t1이라는 테이블에서 password라는 컬럼의 속성(자료형) 변경
+alter table user add column 이름 varchar(10) default '홍길동'; -- user라는 테이블에 "이름"이라는 컬럼 추가("이름"은 가변 char형이며, 입력이 없을 시 "홍길동"으로 저장) 
 
-insert into money values('world9304@naver.com', 10000);
-insert into money values('ksm9781@naver.com', 10000000);
+select * from user; -- t1이라는 DB에서 user 테이블의 모든 데이터 보여주기
+select * from money; -- t1이라는 DB에서 money 테이블의 모든 데이터 보여주기
 
-delete from user where id='ksm9781@naver.com';
+-- insert의 경우, 보통은 SQL에서 직접하는 경우는 적을 것으로 예상
+insert into user values('abc123@test1.com', '1234*', '권삐삐'); -- user라는 테이블에 데이터 입력 (컬럼 수와 동일하게 해야함)
+insert into user values('qwer098@test2.com', '4321*', '나땡땡'); -- user라는 테이블에 데이터 입력 (컬럼 수와 동일하게 해야함)
+
+insert into money values('abc123@test1.com', 10000); -- money라는 테이블에 데이터 입력(컬럼 수와 동일하게 해야함)
+insert into money values('qwer098@test2.com', 10000000); -- money라는 테이블에 데이터 입력(컬럼 수와 동일하게 해야함)
+
+ -- user 테이블에서 id가 qwer098@test2.com인 데이터 삭제(money 테이블에서는 id는 외래키. references로 user 테이블의 id를 사용하며, 
+    -- + on delete cascade로 선언했으므로 money 테이블에 있는 해당 데이터 역시 삭제)
+delete from user where id='qwer098@test2.com';
 
 commit;
-select count(*) from t1;
+select count(*) from t1; -- 테이블 t1이 가지고 있는 전체 데이터의 개수 
 
-drop table money;
+drop table money; -- money 테이블 
+
 -- insert into t1 values('world9304@naver.com', '1q2w3e4r*'); -- 새로운 데이터 추가
 -- alter table t1 drop column name; -- t1이라는 테이블에서 name이라는 colume 삭제
 -- alter table t1 modify id varchar(64) primary key; -- t1 테이블의 id 컬럼의 자료형 변경 및 primary key로 설정(중복된 데이터가 들어오면 안되게)
